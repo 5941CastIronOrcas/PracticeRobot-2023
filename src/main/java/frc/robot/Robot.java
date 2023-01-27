@@ -63,10 +63,12 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    FrontRightDriveMotor.set(Controller.getLeftY()+Controller.getLeftX());
-    BackRightDriveMotor.set(Controller.getLeftY()+Controller.getLeftX());
-    FrontLeftDriveMotor.set(Controller.getLeftY()-Controller.getLeftX());
-    BackLeftDriveMotor.set(Controller.getLeftY()-Controller.getLeftX());
+    double forwardBack = exponential(deadZone(Controller.getLeftY(), 0.1));
+    double rightLeft = exponential(deadZone(Controller.getLeftX(), 0.1));
+    FrontRightDriveMotor.set(forwardBack+rightLeft);
+    BackRightDriveMotor.set(forwardBack+rightLeft);
+    FrontLeftDriveMotor.set(forwardBack-rightLeft);
+    BackLeftDriveMotor.set(forwardBack-rightLeft);
   }
 
   /** This function is called once each time the robot enters test mode. */
@@ -76,4 +78,15 @@ public class Robot extends TimedRobot
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  public double deadZone(double value, double margin){
+    if(Math.abs(value) <= margin){
+      return 0;
+    }
+    return value;
+  }
+
+  public double exponential(double value){
+    return value*Math.abs(value);
+  }
 }
