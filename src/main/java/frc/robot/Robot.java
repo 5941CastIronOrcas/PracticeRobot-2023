@@ -23,6 +23,7 @@ public class Robot extends TimedRobot
   VictorSP BackRightDriveMotor = new VictorSP(3);
   VictorSP BackLeftDriveMotor = new VictorSP(1);
   double TimeSinceStartAtAutoStart;
+  double turnMultiplier = 0.5;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -64,7 +65,7 @@ public class Robot extends TimedRobot
   public void teleopPeriodic() 
   {
     double forwardBack = exponential(deadZone(Controller.getLeftY(), 0.1));
-    double rightLeft = exponential(deadZone(Controller.getLeftX(), 0.1));
+    double rightLeft = turnMultiplier * exponential(deadZone(Controller.getRightX(), 0.1));
     FrontRightDriveMotor.set(forwardBack+rightLeft);
     BackRightDriveMotor.set(forwardBack+rightLeft);
     FrontLeftDriveMotor.set(forwardBack-rightLeft);
