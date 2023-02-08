@@ -24,6 +24,9 @@ public class Robot extends TimedRobot
   VictorSP BackLeftDriveMotor = new VictorSP(1);
   double TimeSinceStartAtAutoStart;
   double turnMultiplier = 0.5;
+  double crouchedSpeedMult = 0.25;
+  double crouchedTurnMult = 0.5;
+  boolean crouched = false;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -64,8 +67,16 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    double forwardBack = exponential(deadZone(Controller.getLeftY(), 0.1));
-    double rightLeft = turnMultiplier * exponential(deadZone(Controller.getRightX(), 0.1));
+    if(Controller.getLeftStickButtonPressed() && !crouched)
+    {
+      crouched = true;
+    }
+    else if(Controller.getLeftStickButtonPressed() && crouched)
+    {
+      crouched = false;
+    }
+    double forwardBack = (crouched?crouchedSpeedMult:1) * exponential(deadZone(Controller.getLeftY(), 0.1));
+    double rightLeft = (crouched?crouchedTurnMult:1) * turnMultiplier * exponential(deadZone(Controller.getRightX(), 0.1));
     FrontRightDriveMotor.set(forwardBack+rightLeft);
     BackRightDriveMotor.set(forwardBack+rightLeft);
     FrontLeftDriveMotor.set(forwardBack-rightLeft);
