@@ -67,14 +67,11 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    if(Controller.getLeftStickButtonPressed() && !crouched)
+    if(Controller.getLeftStickButtonPressed())
     {
-      crouched = true;
+      crouched =!crouched;
     }
-    else if(Controller.getLeftStickButtonPressed() && crouched)
-    {
-      crouched = false;
-    }
+
     double forwardBack = (crouched?crouchedSpeedMult:1) * exponential(deadZone(Controller.getLeftY(), 0.1));
     double rightLeft = (crouched?crouchedTurnMult:1) * turnMultiplier * exponential(deadZone(Controller.getRightX(), 0.1));
     FrontRightDriveMotor.set(forwardBack+rightLeft);
