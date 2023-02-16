@@ -22,6 +22,7 @@ public class Robot extends TimedRobot
   VictorSP FrontLeftDriveMotor = new VictorSP(0);
   VictorSP BackRightDriveMotor = new VictorSP(3);
   VictorSP BackLeftDriveMotor = new VictorSP(1);
+  
   double TimeSinceStartAtAutoStart;
   double turnMultiplier = 0.5;
   double crouchedSpeedMult = 0.25;
