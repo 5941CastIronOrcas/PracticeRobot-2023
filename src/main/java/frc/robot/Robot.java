@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot
     //BackRightDriveMotor.setInverted(true);
     FrontLeftDriveMotor.setInverted(true);
     BackLeftDriveMotor.setInverted(true);
+    CameraServer.startAutomaticCapture();
   }
 
   @Override
