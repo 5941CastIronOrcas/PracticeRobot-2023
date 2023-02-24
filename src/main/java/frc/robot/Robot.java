@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -28,6 +29,9 @@ public class Robot extends TimedRobot
   double crouchedSpeedMult = 0.25;
   double crouchedTurnMult = 0.5;
   boolean crouched = false;
+
+  private final Vision m_vision = new Vision();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -39,6 +43,22 @@ public class Robot extends TimedRobot
     //BackRightDriveMotor.setInverted(true);
     FrontLeftDriveMotor.setInverted(true);
     BackLeftDriveMotor.setInverted(true);
+  }
+
+  @Override
+  public void robotPeriodic()
+  {
+    SmartDashboard.putNumber("FidId", Vision.obtainTargets().getFiducialId());
+    if (Vision.getEstimatedGlobalPose().isPresent()) {
+      SmartDashboard.putBoolean("Pose present", true);
+      SmartDashboard.putNumber("Est X Pos", Vision.getEstimatedGlobalPose().get().getX());
+      SmartDashboard.putNumber("Est Y Pos", Vision.getEstimatedGlobalPose().get().getY());
+    }
+    else {
+      SmartDashboard.putBoolean("Pose present", false);
+      SmartDashboard.putNumber("Est X Pos", -1);
+      SmartDashboard.putNumber("Est Y Pos", -1);
+    }
   }
 
   /** This function is run once each time the robot enters autonomous mode. */
